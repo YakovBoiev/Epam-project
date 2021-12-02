@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">DEPARTAMENT</th>
+      <th scope="col">NUMBER OF EMPLOYEES</th>
+      <th scope="col">AVERAGE SALARY</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for depart in departs %}
+    <tr>
+      <td>{{ depart.names }}</td>
+      <td>15</td>
+      <td>10000</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
