@@ -15,6 +15,11 @@ def departments():
     return render_template('departments.html', department_list=department_list)
 
 
+@app.route('/department/create')
+def department_create():
+    return 'create department'
+
+
 @app.route('/employees')
 def employees():
     employees_list = Employee.query.all()
