@@ -11,8 +11,8 @@ def index():
 
 @app.route('/departments')
 def departments():
-    departs = Department.query.all()
-    return render_template('departments.html', departs=departs)
+    department_list = Department.query.all()
+    return render_template('departments.html', department_list=department_list)
 
 
 @app.route('/employees')
@@ -21,11 +21,9 @@ def employees():
     return render_template('employees.html', employees_list=employees_list)
 
 
-@app.route('/employees/department/<depart_id>')
+@app.route('/employees/department/<int:depart_id>')
 def employees_department_list(depart_id):
-    print(type(depart_id))
-    employees_list = Employee.query.filter_by(department_id=int(depart_id))
-    print(employees_list)
+    employees_list = Employee.query.filter_by(department_id=depart_id)
     return render_template('employees.html', employees_list=employees_list)
 
 

@@ -8,6 +8,7 @@
       <th scope="col">TAX NUMBER</th>
       <th scope="col">DATE OF BIRTH</th>
       <th scope="col">SALARY</th>
+      <th scope="col">DEPARTMENT</th>
     </tr>
   </thead>
   <tbody>
@@ -18,6 +19,7 @@
       <td>{{ employee.tax_number }}</td>
       <td>{{ employee.date_of_birth}}</td>
       <td>{{ employee.salary }}</td>
+      <td>{{ employee.department.names }}</td>
     </tr>
     {% endfor %}
   </tbody>
