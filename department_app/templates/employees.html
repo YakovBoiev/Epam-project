@@ -3,35 +3,23 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Last name</th>
-      <th scope="col">Firs name</th>
-      <th scope="col">Date of Birth </th>
-      <th scope="col">salary</th>
+      <th scope="col">LAST NAME</th>
+      <th scope="col">FIRST NAME</th>
+      <th scope="col">TAX NUMBER</th>
+      <th scope="col">DATE OF BIRTH</th>
+      <th scope="col">SALARY</th>
     </tr>
   </thead>
   <tbody>
+  {% for employee in employees_list %}
     <tr>
-      <th scope="row">1</th>
-      <td>Ivanov</td>
-      <td>Ivan</td>
-      <td>31.12.1990</td>
-      <td>10000</td>
+      <td>{{ employee.last_name }}</td>
+      <td>{{ employee.first_name }}</td>
+      <td>{{ employee.tax_number }}</td>
+      <td>{{ employee.date_of_birth}}</td>
+      <td>{{ employee.salary }}</td>
     </tr>
-     <tr>
-      <th scope="row">2</th>
-      <td>Ivanov</td>
-      <td>Ivan</td>
-      <td>31.12.1990</td>
-      <td>10000</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Ivanov</td>
-      <td>Ivan</td>
-      <td>31.12.1990</td>
-      <td>10000</td>
-    </tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}

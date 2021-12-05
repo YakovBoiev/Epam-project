@@ -12,8 +12,8 @@
     {% for depart in departs %}
     <tr>
       <td>{{ depart.names }}</td>
-      <td>15</td>
-      <td>10000</td>
+      <td><a href="/employees/department/{{ depart.id}}">{{ depart.number_employees}}</a></td>
+      <td>{{ depart.average_salary}}</td>
     </tr>
     {% endfor %}
   </tbody>
