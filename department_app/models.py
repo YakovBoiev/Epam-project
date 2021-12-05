@@ -4,15 +4,15 @@ from department_app.app import db
 class Department(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     names = db.Column(db.String(80), unique=True, nullable=False)
+    employees = db.relationship('Employee', backref='department', lazy=True)
 
     @property
     def number_employees(self):
-        return len(list(Employee.query.filter_by(department_id=self.id)))
+        return len(self.employees)
 
     @property
     def average_salary(self):
-        query = Employee.query.filter_by(department_id=self.id)
-        return sum(map(lambda employee: employee.salary, query))/self.number_employees
+        return sum(map(lambda employee: employee.salary, self.employees)) / self.number_employees
 
 
 class Employee(db.Model):

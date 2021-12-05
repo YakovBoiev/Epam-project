@@ -9,11 +9,11 @@
     </tr>
   </thead>
   <tbody>
-    {% for depart in departs %}
+    {% for department in department_list %}
     <tr>
-      <td>{{ depart.names }}</td>
-      <td><a href="/employees/department/{{ depart.id}}">{{ depart.number_employees}}</a></td>
-      <td>{{ depart.average_salary}}</td>
+      <td>{{ department.names }}</td>
+      <td><a href="/employees/department/{{ department.id}}">{{ department.number_employees}}</a></td>
+      <td>{{ department.average_salary}}</td>
     </tr>
     {% endfor %}
   </tbody>
