@@ -3,7 +3,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">DEPARTAMENT</th>
+      <th scope="col">DEPARTMENT</th>
       <th scope="col">NUMBER OF EMPLOYEES</th>
       <th scope="col">AVERAGE SALARY</th>
     </tr>
@@ -11,8 +11,8 @@
   <tbody>
     {% for department in department_list %}
     <tr>
-      <td><a href="/department/{{ department.id}}">{{ department.names }}</a></td>
-      <td><a href="/employees/department/{{ department.id}}">{{ department.number_employees}}</a></td>
+      <td><a href="{{ url_for('department_read', department_id=department.id) }}">{{ department.names }}</a></td>
+      <td><a href="{{ url_for('employees_department_list', department_id=department.id) }}">{{ department.number_employees}}</a></td>
       <td>{{ department.average_salary}}</td>
     </tr>
     {% endfor %}

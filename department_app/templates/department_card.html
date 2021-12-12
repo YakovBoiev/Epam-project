@@ -6,9 +6,9 @@
     <h5 class="card-title">{{ department.names }}</h5>
     <p class="card-text"> Number of employees {{ department.number_employees }}</p>
     <p class="card-text"> Average salary {{ department. average_salary}}</p>
-    <a href="#" class="btn btn-primary">UPDATE</a>
+    <a href="{{ url_for('department_update', department_id=department.id) }}" class="btn btn-primary">UPDATE</a>
     {% if department.number_employees == 0 %}
-    <a href="/department_delete/{{department.id}}" class="btn btn-primary">DELETE</a>
+    <a href="{{ url_for('department_delete', department_id=department.id) }}" class="btn btn-primary">DELETE</a>
     {% endif %}
   </div>
 </div>
