@@ -12,7 +12,10 @@ class Department(db.Model):
 
     @property
     def average_salary(self):
-        return sum(map(lambda employee: employee.salary, self.employees)) / self.number_employees
+        try:
+            return sum(map(lambda employee: employee.salary, self.employees)) / self.number_employees
+        except ZeroDivisionError:
+            return 0
 
 
 class Employee(db.Model):
