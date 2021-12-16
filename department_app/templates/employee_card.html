@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>EMPLOYEE</h3>
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{ employee.last_name }}</h5>
+    <h5 class="card-title">{{ employee.first_name}}</h5>
+    <p class="card-text"> Tax number {{ employee.tax_number}}</p>
+    <p class="card-text"> Salary {{ employee.salary }}</p>
+    <p class="card-text"> Date of birth {{ employee.date_of_birth }}</p>
+    <p class="card-text"> Department {{ employee.department.names }}</p>
+    <a href="{{ url_for('employee_update', _id=employee.id) }}" class="btn btn-primary">UPDATE</a>
+    <a href="{{ url_for('employee_delete', _id=employee.id) }}" class="btn btn-primary">DELETE</a>
+  </div>
+</div>
+<br/>
+{% endblock %}

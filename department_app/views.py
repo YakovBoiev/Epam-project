@@ -1,13 +1,14 @@
 from department_app.app import app, db
 from flask import render_template, redirect, request, url_for
-from department_app.forms import DepartmentForm
+from department_app.forms import DepartmentForm, EmployeeForm
 from department_app.models import Department, Employee
 
 
 @app.route('/index')
 @app.route('/')
 def index():
-    return render_template('index.html')
+    title = 'Main'
+    return render_template('index.html', title=title)
 
 
 @app.route('/departments')
@@ -69,3 +70,65 @@ def employees_department_list(department_id):
     return render_template('employees.html', employees_list=employees_list)
 
 
+@app.route('/employee/create', methods=['GET', 'POST'])
+def employee_create():
+    title = 'Create employee'
+    form = EmployeeForm()
+    departments_list = []
+    for department in Department.query.all():
+        departments_list.append((department.id, department.names))
+    form.department_id.choices = departments_list
+    if form.validate_on_submit():
+        employee = Employee(department_id=form.department_id.data,
+                            tax_number=form.tax_number.data,
+                            first_name=form.first_name.data,
+                            last_name=form.last_name.data,
+                            date_of_birth=form.date_of_birth.data,
+                            salary=form.salary.data)
+        db.session.add(employee)
+        db.session.commit()
+        return redirect(url_for('employees_department_list', department_id=employee.department_id))
+    return render_template('employee_create.html', form=form, title=title)
+
+
+@app.route('/employee/<int:_id>')
+def employee_read(_id):
+    employee = Employee.query.get(_id)
+    return render_template('employee_card.html', employee=employee)
+
+
+@app.route('/employee/update/<int:_id>', methods=['GET', 'POST'])
+def employee_update(_id):
+    title = "Update employee"
+    employee = Employee.query.get(_id)
+    form = EmployeeForm()
+    departments_list = []
+    for department in Department.query.all():
+        departments_list.append((department.id, department.names))
+    form.department_id.choices = departments_list
+    if request.method == 'GET':
+        form.tax_number.data = employee.tax_number
+        form.first_name.data = employee.first_name
+        form.last_name.data = employee.last_name
+        form.date_of_birth.data = employee.date_of_birth
+        form.salary.data = employee.salary
+        return render_template('employee_create.html', form=form, title=title)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            print(form.department_id.data)
+            employee.department_id = form.department_id.data,
+            employee.tax_number = form.tax_number.data,
+            employee.first_name = form.first_name.data,
+            employee.last_name = form.last_name.data,
+            employee.date_of_birth = form.date_of_birth.data,
+            employee.salary = form.salary.data
+            db.session.commit()
+            return redirect(url_for('employee_read', _id=employee.id))
+
+
+@app.route('/employee/delete/<int:_id>')
+def employee_delete(_id):
+    employee = Employee.query.get(_id)
+    db.session.delete(employee)
+    db.session.commit()
+    return redirect(url_for('employees'))

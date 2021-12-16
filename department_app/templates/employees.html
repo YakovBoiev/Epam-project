@@ -14,7 +14,7 @@
   <tbody>
   {% for employee in employees_list %}
     <tr>
-      <td>{{ employee.last_name }}</td>
+      <td><a href="{{ url_for('employee_read', _id=employee.id) }}">{{ employee.last_name }}</a></td>
       <td>{{ employee.first_name }}</td>
       <td>{{ employee.tax_number }}</td>
       <td>{{ employee.date_of_birth}}</td>
@@ -24,4 +24,8 @@
     {% endfor %}
   </tbody>
 </table>
+<div>
+  <a class="btn btn-primary" href={{url_for('employee_create')}} role="button">CREATE</a>
+</div>
+<br/>
 {% endblock %}
