@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+<div>
+  <h3>{{title}}</h3>
+</div>
+<form method="post">
+  {{ form.hidden_tag() }}
+    <p class="form-control">{{ form.department_id.label()}} {{ form.department_id() }}</p>
+    <p class="form-control">{{ form.tax_number.label()}} {{ form.tax_number() }}</p>
+    <p class="form-control">{{ form.first_name.label()}} {{ form.first_name() }}</p>
+    <p class="form-control">{{ form.last_name.label()}} {{ form.last_name() }}</p>
+    <p class="form-control">{{ form.date_of_birth.label()}} {{ form.date_of_birth() }}</p>
+    <p class="form-control">{{ form.salary.label()}} {{ form.salary() }}</p>
+    <p> {{form.submit() }} </p>
+  </form>
+{% endblock %}
