@@ -1,6 +1,6 @@
 from department_app.app import app, db
 from flask import render_template, redirect, request, url_for
-from department_app.forms import DepartmentForm, EmployeeForm
+from department_app.forms import DepartmentForm, EmployeeForm, FindDateForm
 from department_app.models import Department, Employee
 
 
@@ -58,16 +58,30 @@ def department_delete(department_id):
     return redirect(url_for('departments'))
 
 
-@app.route('/employees')
+@app.route('/employees', methods=['GET', 'POST'])
 def employees():
+    title = 'Employees'
+    form = FindDateForm()
     employees_list = Employee.query.all()
-    return render_template('employees.html', employees_list=employees_list)
+    if request.method == 'GET':
+        return render_template('employees.html', employees_list=employees_list, form=form, title=title)
+    if request.method == 'POST':
+        employees_list_post = []
+        if form.validate_on_submit():
+            start_date = form.start_date.data
+            stop_date = form.stop_date.data
+            for employee in employees_list:
+                if start_date <= employee.date_of_birth <= stop_date:
+                    employees_list_post.append(employee)
+        return render_template('employees.html', employees_list=employees_list_post, form=form, title=title)
 
 
 @app.route('/employees/department/<int:department_id>')
 def employees_department_list(department_id):
+    title = 'Employee'
+    form = FindDateForm()
     employees_list = Employee.query.filter_by(department_id=department_id)
-    return render_template('employees.html', employees_list=employees_list)
+    return render_template('employees.html', employees_list=employees_list, form=form, title=title)
 
 
 @app.route('/employee/create', methods=['GET', 'POST'])

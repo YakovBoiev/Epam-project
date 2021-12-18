@@ -18,3 +18,9 @@ class EmployeeForm(FlaskForm):
     submit = SubmitField('Send')
 
 
+class FindDateForm(FlaskForm):
+    start_date = DateField('Start date', validators=[DataRequired()])
+    stop_date = DateField('Stop date', validators=[DataRequired()])
+    submit = SubmitField('Find')
+
+

@@ -1,5 +1,12 @@
 {% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
 {% block content %}
+<h4>Search for an employee by date of birth</h4>
+<form method="post">
+  {{ form.hidden_tag() }}
+    <p class="form-control" > {{ form.start_date.label()}} {{ form.start_date() }}
+      {{ form.stop_date.label()}} {{ form.stop_date() }} {{form.submit() }}</p>
+</form>
 <table class="table table-striped">
   <thead>
     <tr>
