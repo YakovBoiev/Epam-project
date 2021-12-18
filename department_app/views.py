@@ -1,6 +1,6 @@
 from department_app.app import app, db
 from flask import render_template, redirect, request, url_for
-from department_app.forms import DepartmentForm, EmployeeForm
+from department_app.forms import DepartmentForm, EmployeeForm, FindDateForm
 from department_app.models import Department, Employee
 
 
@@ -58,16 +58,25 @@ def department_delete(department_id):
     return redirect(url_for('departments'))
 
 
-@app.route('/employees')
-def employees():
-    employees_list = Employee.query.all()
-    return render_template('employees.html', employees_list=employees_list)
-
-
-@app.route('/employees/department/<int:department_id>')
-def employees_department_list(department_id):
-    employees_list = Employee.query.filter_by(department_id=department_id)
-    return render_template('employees.html', employees_list=employees_list)
+@app.route('/employees/<int:department_id>', methods=['GET', 'POST'])
+def employees(department_id):
+    title = 'Employees'
+    form = FindDateForm()
+    if department_id == 0:
+        employees_list = Employee.query.all()
+    else:
+        employees_list = Employee.query.filter_by(department_id=department_id)
+    if request.method == 'GET':
+        return render_template('employees.html', employees_list=employees_list, form=form, title=title)
+    if request.method == 'POST':
+        employees_list_post = []
+        if form.validate_on_submit():
+            start_date = form.start_date.data
+            stop_date = form.stop_date.data
+            for employee in employees_list:
+                if start_date <= employee.date_of_birth <= stop_date:
+                    employees_list_post.append(employee)
+        return render_template('employees.html', employees_list=employees_list_post, form=form, title=title)
 
 
 @app.route('/employee/create', methods=['GET', 'POST'])
@@ -79,15 +88,16 @@ def employee_create():
         departments_list.append((department.id, department.names))
     form.department_id.choices = departments_list
     if form.validate_on_submit():
-        employee = Employee(department_id=form.department_id.data,
-                            tax_number=form.tax_number.data,
-                            first_name=form.first_name.data,
-                            last_name=form.last_name.data,
-                            date_of_birth=form.date_of_birth.data,
-                            salary=form.salary.data)
+        employee = Employee(
+            department_id=form.department_id.data,
+            tax_number=form.tax_number.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            date_of_birth=form.date_of_birth.data,
+            salary=form.salary.data)
         db.session.add(employee)
         db.session.commit()
-        return redirect(url_for('employees_department_list', department_id=employee.department_id))
+        return redirect(url_for('employees', department_id=employee.department_id))
     return render_template('employee_create.html', form=form, title=title)
 
 

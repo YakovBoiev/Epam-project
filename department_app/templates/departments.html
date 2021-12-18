@@ -12,7 +12,7 @@
     {% for department in department_list %}
     <tr>
       <td><a href="{{ url_for('department_read', department_id=department.id) }}">{{ department.names }}</a></td>
-      <td><a href="{{ url_for('employees_department_list', department_id=department.id) }}">{{ department.number_employees}}</a></td>
+      <td><a href="{{ url_for('employees', department_id=department.id) }}">{{ department.number_employees}}</a></td>
       <td>{{ department.average_salary}}</td>
     </tr>
     {% endfor %}

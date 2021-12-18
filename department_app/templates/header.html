@@ -1,4 +1,4 @@
- <!-- A grey horizontal navbar that becomes vertical on small screens -->
+
 <nav class="navbar navbar-expand-sm bg-light">
   <div class="container-fluid">
     <!-- Links -->
@@ -10,7 +10,7 @@
         <a class="nav-link" href="{{ url_for('departments') }}">Departments</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('employees') }}">Employees</a>
+        <a class="nav-link" href="{{ url_for('employees', department_id=0) }}">Employees</a>
       </li>
     </ul>
   </div>
