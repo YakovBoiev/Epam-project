@@ -11,6 +11,7 @@ migrate = Migrate(app, db)
 
 
 import department_app.views
+import department_app.rest.api_views
 
 if __name__ == '__main__':
     app.run(debug=True)

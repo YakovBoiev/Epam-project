@@ -141,4 +141,4 @@ def employee_delete(_id):
     employee = Employee.query.get(_id)
     db.session.delete(employee)
     db.session.commit()
-    return redirect(url_for('employees'))
+    return redirect(url_for('employees', department_id=0))
