@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from department_app.app import app, db
-from department_app.models import Department
+from department_app.models import Department, Employee
 
 
 def depart_to_dict(department):
@@ -9,6 +9,19 @@ def depart_to_dict(department):
         'names': department.names,
         'number_employees': department.number_employees,
         'average_salary': department.average_salary
+    }
+
+
+def employee_to_dict(employee):
+    return {
+        'id': employee.id,
+        'tax_number': employee.tax_number,
+        'last_name': employee.last_name,
+        'first_name': employee.first_name,
+        'date_of_birth': employee.date_of_birth,
+        'salary': employee.salary,
+        'department_id': employee.department_id,
+        'departament_name': employee.department.names
     }
 
 
@@ -59,5 +72,34 @@ def department_delete_api(id_):
     return "", 204
 
 
+@app.route('/api/employee/', methods=["POST"])
+def employee_create_api():
+    employee_data = request.json
+    employee = Employee(**employee_data)  # need validate
+    db.session.add(employee)
+    db.session.commit()
+    return jsonify(employee_to_dict(employee))
 
 
+@app.route('/api/employee/', methods=["GET"])
+def employees_api():
+    employee_list = Employee.query.order_by(Employee.id).all()
+    return jsonify([employee_to_dict(employee) for employee in employee_list])
+
+
+@app.route('/api/employee/<int:id_>', methods=["GET"])
+def employee_read_api(id_):
+    employee = Employee.query.get(id_)
+    if employee is None:
+        return jsonify({"error": "Employee not found"}), 404
+    return jsonify(employee_to_dict(employee))
+
+
+@app.route('/api/employee/<int:id_>', methods=["DELETE"])
+def employee_delete_api(id_):
+    employee = Employee.query.get(id_)
+    if not employee:
+        return jsonify({"error": "Employee not found"}), 404
+    db.session.delete(employee)
+    db.session.commit()
+    return "", 204
