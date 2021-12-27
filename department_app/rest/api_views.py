@@ -95,6 +95,21 @@ def employee_read_api(id_):
     return jsonify(employee_to_dict(employee))
 
 
+@app.route('/api/employee/<int:id_>', methods=["PUT"])
+def employee_update_api(id_):
+    employee = Employee.query.get(id_)
+    if employee is None:
+        return jsonify({"error": "Employee not found"}), 404
+    employee.tax_number = request.json.get('tax_number', employee.tax_number)
+    employee.last_name = request.json.get('last_name', employee.last_name)
+    employee.first_name= request.json.get('first_name', employee.first_name)
+    employee.date_of_birth = request.json.get('date_of_birth', employee.date_of_birth)
+    employee.salary = request.json.get('salary', employee.salary)
+    employee.department_id= request.json.get('department_id', employee.department_id)
+    db.session.commit()
+    return jsonify(employee_to_dict(employee))
+
+
 @app.route('/api/employee/<int:id_>', methods=["DELETE"])
 def employee_delete_api(id_):
     employee = Employee.query.get(id_)
